@@ -1,17 +1,23 @@
 package com.mycompany.programmingpt.util;
 
+import com.mycompany.programmingpt.components.OrderFrame;
 import com.mycompany.programmingpt.model.MenuItem;
+import com.mycompany.programmingpt.model.OrderItem;
 import com.mycompany.programmingpt.model.User;
+
+
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-public class DbUtils {
-
+public class DbUtils  {
+    
+    
     private static Connection getConnection() throws SQLException {
         Properties config = ResourceUtils.getConfig();
         String url = (String) config.get("database.url");
@@ -41,7 +47,9 @@ public class DbUtils {
 
         return menuItemList;
     }
-
+    
+   
+   
     public static User getUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username=? AND password=? LIMIT 1";
 
@@ -76,6 +84,7 @@ public class DbUtils {
         }
         return sb.toString();
     }
-
+    
 
 }
+

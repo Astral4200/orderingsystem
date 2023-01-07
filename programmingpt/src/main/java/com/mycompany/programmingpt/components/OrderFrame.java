@@ -34,6 +34,10 @@ public class OrderFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    public OrderFrame() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     private void internalInit() {
         menuItems = DbUtils.getMenuItems();
     }
@@ -65,15 +69,16 @@ public class OrderFrame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu"));
-        jPanel1.setBorder(BorderFactory.createTitledBorder("Menu"));
+		jPanel1.setBorder(BorderFactory.createTitledBorder("Menu"));
         jPanel1.setLayout(new GridLayout(0, 2));
         System.out.println("Menu item count: " + menuItems.size());
-
-        for (MenuItem menuItem : menuItems) {
+		
+		for (MenuItem menuItem : menuItems) {
             JButton menuItemBtn = new MenuItemButton(menuItem);
             menuItemBtn.addActionListener(e -> {
                 MenuItemButton source = (MenuItemButton) e.getSource();
@@ -90,16 +95,17 @@ public class OrderFrame extends javax.swing.JFrame {
             });
             jPanel1.add(menuItemBtn);
         }
-//        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-//        jPanel1.setLayout(jPanel1Layout);
-//        jPanel1Layout.setHorizontalGroup(
-//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 189, Short.MAX_VALUE)
-//        );
-//        jPanel1Layout.setVerticalGroup(
-//            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 0, Short.MAX_VALUE)
-//        );
+
+       // javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        //jPanel1.setLayout(jPanel1Layout);
+        //jPanel1Layout.setHorizontalGroup(
+         //   jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+           // .addGap(0, 189, Short.MAX_VALUE)
+        //);
+        //jPanel1Layout.setVerticalGroup(
+          //  jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+           // .addGap(0, 0, Short.MAX_VALUE)
+        //);
 
         logoutBtn.setText("Logout");
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +114,7 @@ public class OrderFrame extends javax.swing.JFrame {
             }
         });
 
-        nameLabel.setText(name);
+        nameLabel.setText("Juan Dela Cruz");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Order"));
 
@@ -174,7 +180,7 @@ public class OrderFrame extends javax.swing.JFrame {
 
         jLabel6.setText("0.00");
 
-        jLabel7.setText("-10.00");
+        jLabel7.setText("0.00");
 
         jLabel8.setText("0.00");
 
@@ -214,6 +220,13 @@ public class OrderFrame extends javax.swing.JFrame {
         );
 
         jButton2.setText("Order");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Clear");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,9 +246,6 @@ public class OrderFrame extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton2))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
@@ -245,7 +255,12 @@ public class OrderFrame extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jRadioButton2)))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -267,7 +282,9 @@ public class OrderFrame extends javax.swing.JFrame {
                             .addComponent(jRadioButton2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -275,7 +292,7 @@ public class OrderFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void refreshTable() {
+    public void refreshTable() {
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     model.setRowCount(0);
     for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
@@ -286,13 +303,13 @@ public class OrderFrame extends javax.swing.JFrame {
         });
     }
 
-    double total = 0;
+    double totall = 0;
     for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
-        total += orderItem.getSubTotal();
+        totall += orderItem.getSubTotal();
     }
 
     
-    jLabel6.setText(String.format("%.2f", total));
+    jLabel6.setText(String.format("%.2f", totall));
 
 
     jTable1.repaint();
@@ -300,6 +317,22 @@ public class OrderFrame extends javax.swing.JFrame {
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         System.exit(0);
     }//GEN-LAST:event_logoutBtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(jRadioButton2.isSelected()== true){
+            for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
+          double total  = orderItem.getSubTotal(); 
+          double less = total * 0.10;
+          double discountedTotal = total - less;
+          
+          jLabel7.setText(String.format("%.2f", less));
+          jLabel8.setText(String.format("%.2f", discountedTotal));
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+        
+        }
+   }
+    
 
     /**
      * @param args the command line arguments
@@ -339,6 +372,7 @@ public class OrderFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
