@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -85,6 +86,7 @@ public class OrderFrame extends javax.swing.JFrame {
                 for (OrderItem value : menuItemIdToOrderItemMap.values()) {
                     System.out.println(" " + value.getMenu().getName() + " " + value.getQty() + "x " + String.format("%.2f", value.getSubTotal()));
                 }
+				refreshTable();
             });
             jPanel1.add(menuItemBtn);
         }
@@ -170,11 +172,11 @@ public class OrderFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Total");
 
-        jLabel6.setText("100.00");
+        jLabel6.setText("0.00");
 
         jLabel7.setText("-10.00");
 
-        jLabel8.setText("90.00");
+        jLabel8.setText("0.00");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -273,6 +275,28 @@ public class OrderFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    private void refreshTable() {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0);
+    for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
+        model.addRow(new Object[] {
+            orderItem.getMenu().getName(),
+            orderItem.getQty(),
+            orderItem.getSubTotal()
+        });
+    }
+
+    double total = 0;
+    for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
+        total += orderItem.getSubTotal();
+    }
+
+    
+    jLabel6.setText(String.format("%.2f", total));
+
+
+    jTable1.repaint();
+}
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         System.exit(0);
     }//GEN-LAST:event_logoutBtnActionPerformed
