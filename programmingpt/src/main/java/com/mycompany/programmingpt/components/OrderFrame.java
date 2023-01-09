@@ -24,7 +24,7 @@ public class OrderFrame extends javax.swing.JFrame {
     private final String name;
     private List<MenuItem> menuItems;
     private Map<Integer, OrderItem> menuItemIdToOrderItemMap = new HashMap<>();
-
+    DbUtils insert = new DbUtils();
     /**
      * Creates new form TheFrame
      */
@@ -34,9 +34,7 @@ public class OrderFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public OrderFrame() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
 
     private void internalInit() {
         menuItems = DbUtils.getMenuItems();
@@ -291,10 +289,14 @@ public class OrderFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+  
+
+
     
     public void refreshTable() {
     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
     model.setRowCount(0);
+    
     for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
         model.addRow(new Object[] {
             orderItem.getMenu().getName(),
@@ -327,7 +329,10 @@ public class OrderFrame extends javax.swing.JFrame {
           
           jLabel7.setText(String.format("%.2f", less));
           jLabel8.setText(String.format("%.2f", discountedTotal));
-        
+          insert.insertintoOrderItem(jTable1);
+              
+          
+         
     }//GEN-LAST:event_jButton2ActionPerformed
         
         }

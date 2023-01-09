@@ -12,8 +12,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
+
+import javax.swing.JTable;
+
 
 public class DbUtils  {
     
@@ -48,7 +50,27 @@ public class DbUtils  {
         return menuItemList;
     }
     
-   
+public static void insertintoOrderItem(JTable jTable1){
+    String query = "INSERT INTO order_items (menu,qty,subtotal) VALUES (?, ?, ?)";
+    try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        for(int i = 0; i < jTable1.getRowCount(); i++){
+            String menu = jTable1.getValueAt(i, 0).toString();
+            int qty = Integer.parseInt(jTable1.getValueAt(i,1).toString());
+            double subtotal = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
+            
+            preparedStatement.setString(1, menu);
+            preparedStatement.setInt(2, qty);
+            preparedStatement.setDouble(3, subtotal);
+            
+            preparedStatement.executeUpdate();
+        }
+        
+    }catch (Exception e){
+        e.printStackTrace();
+        
+    }
+}
    
     public static User getUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username=? AND password=? LIMIT 1";
