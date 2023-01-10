@@ -220,9 +220,23 @@ public class OrderFrame extends javax.swing.JFrame {
         jButton2.setText("Order");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+                if(jRadioButton2.isSelected()== true){
+            for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
+          double total  = orderItem.getSubTotal(); 
+          double less = total * 0.10;
+          double discountedTotal = total - less;
+          
+          jLabel7.setText(String.format("%.2f", less));
+          jLabel8.setText(String.format("%.2f", discountedTotal));
+          insert.insertintoOrderItem(jTable1);
+              
+          
+         
+    }                                        
+        
+        }
+   }
+		});
 
         jButton1.setText("Clear");
 
@@ -320,23 +334,6 @@ public class OrderFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_logoutBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(jRadioButton2.isSelected()== true){
-            for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
-          double total  = orderItem.getSubTotal(); 
-          double less = total * 0.10;
-          double discountedTotal = total - less;
-          
-          jLabel7.setText(String.format("%.2f", less));
-          jLabel8.setText(String.format("%.2f", discountedTotal));
-          insert.insertintoOrderItem(jTable1);
-              
-          
-         
-    }//GEN-LAST:event_jButton2ActionPerformed
-        
-        }
-   }
     
 
     /**

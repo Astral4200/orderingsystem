@@ -51,27 +51,36 @@ public class DbUtils  {
     }
     
 public static void insertintoOrderItem(JTable jTable1){
-    String query = "INSERT INTO order_items (menu,qty,subtotal) VALUES (?, ?, ?)";
+    String query = "INSERT INTO order_items (menu,qty,subtotal,created_at) VALUES (?, ?, ?,?)";
+    String checkquery = "SELECT * FROM order_items WHERE menu = ? AND created_at = ?";
     try (Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement checkstmt = connection.prepareStatement(checkquery)) {
+             
         for(int i = 0; i < jTable1.getRowCount(); i++){
             String menu = jTable1.getValueAt(i, 0).toString();
             int qty = Integer.parseInt(jTable1.getValueAt(i,1).toString());
             double subtotal = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
+            Timestamp created_at = new Timestamp(System.currentTimeMillis());
             
-            preparedStatement.setString(1, menu);
-            preparedStatement.setInt(2, qty);
-            preparedStatement.setDouble(3, subtotal);
+            checkstmt.setString(1,menu);
+            checkstmt.setTimestamp(2,created_at);
+            ResultSet checkrs = checkstmt.executeQuery();
             
-            preparedStatement.executeUpdate();
+            if(!checkrs.next()){
+                preparedStatement.setString(1, menu);
+                preparedStatement.setInt(2, qty);
+                preparedStatement.setDouble(3, subtotal);
+                preparedStatement.setTimestamp(4,created_at);
+
+                preparedStatement.executeUpdate();
+            }
         }
         
     }catch (Exception e){
         e.printStackTrace();
-        
     }
 }
-   
     public static User getUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username=? AND password=? LIMIT 1";
 
