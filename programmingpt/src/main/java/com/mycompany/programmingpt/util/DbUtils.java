@@ -10,6 +10,7 @@ import com.mycompany.programmingpt.model.User;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -61,7 +62,11 @@ public static void insertintoOrderItem(JTable jTable1){
             String menu = jTable1.getValueAt(i, 0).toString();
             int qty = Integer.parseInt(jTable1.getValueAt(i,1).toString());
             double subtotal = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
-            Timestamp created_at = new Timestamp(System.currentTimeMillis());
+            Timestamp created_at = Timestamp.from(Instant.now());
+            
+            if(qty <=0){
+                continue;
+            }
             
             checkstmt.setString(1,menu);
             checkstmt.setTimestamp(2,created_at);

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
+
 /**
  *
  * @author ginpy
@@ -94,17 +95,18 @@ public class OrderFrame extends javax.swing.JFrame {
             jPanel1.add(menuItemBtn);
         }
 
-       // javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        //jPanel1.setLayout(jPanel1Layout);
-        //jPanel1Layout.setHorizontalGroup(
-         //   jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-           // .addGap(0, 189, Short.MAX_VALUE)
-        //);
-        //jPanel1Layout.setVerticalGroup(
-          //  jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-           // .addGap(0, 0, Short.MAX_VALUE)
-        //);
-
+	/*
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 189, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+*/
         logoutBtn.setText("Logout");
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,7 +222,7 @@ public class OrderFrame extends javax.swing.JFrame {
         jButton2.setText("Order");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                if(jRadioButton2.isSelected()== true){
+                 if(jRadioButton2.isSelected()== true){
             for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
           double total  = orderItem.getSubTotal(); 
           double less = total * 0.10;
@@ -239,6 +241,11 @@ public class OrderFrame extends javax.swing.JFrame {
 		});
 
         jButton1.setText("Clear");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -334,7 +341,22 @@ public class OrderFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_logoutBtnActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel newTable = (DefaultTableModel)jTable1.getModel();
+        jTable1.setModel(newTable);
+         while(newTable.getRowCount()>0)
+    {
+        newTable.removeRow(newTable.getRowCount()-1);
+    }
+    menuItemIdToOrderItemMap.clear();
+    refreshTable();
     
+    jLabel6.setText(null);
+    jLabel7.setText(null);
+    jLabel8.setText(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
 
     /**
      * @param args the command line arguments
