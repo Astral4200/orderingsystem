@@ -1,3 +1,4 @@
+
 package com.mycompany.programmingpt.model;
 
 import java.time.LocalDateTime;

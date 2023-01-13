@@ -1,3 +1,4 @@
+
 package com.mycompany.programmingpt.service;
 
 import com.mycompany.programmingpt.model.Order;
@@ -15,6 +16,8 @@ public class OrderService {
         order.setOrderItems(orderItems);
         order.setDateTime(LocalDateTime.now());
         applyTotal(order);
+        
+        
     }
 
     private void applyTotal(Order order) {

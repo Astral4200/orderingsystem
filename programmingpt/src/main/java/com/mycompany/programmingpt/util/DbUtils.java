@@ -2,8 +2,10 @@ package com.mycompany.programmingpt.util;
 
 import com.mycompany.programmingpt.components.OrderFrame;
 import com.mycompany.programmingpt.model.MenuItem;
+import com.mycompany.programmingpt.model.Order;
 import com.mycompany.programmingpt.model.OrderItem;
 import com.mycompany.programmingpt.model.User;
+import com.mycompany.programmingpt.service.OrderService;
 
 
 
@@ -86,6 +88,9 @@ public static void insertintoOrderItem(JTable jTable1){
         e.printStackTrace();
     }
 }
+ 
+
+
     public static User getUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username=? AND password=? LIMIT 1";
 

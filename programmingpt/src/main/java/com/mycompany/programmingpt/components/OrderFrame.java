@@ -5,8 +5,12 @@
 package com.mycompany.programmingpt.components;
 
 import com.mycompany.programmingpt.model.MenuItem;
+
+
 import com.mycompany.programmingpt.model.OrderItem;
+
 import com.mycompany.programmingpt.util.DbUtils;
+import com.mycompany.programmingpt.model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
+
 
 
 /**
@@ -26,6 +31,8 @@ public class OrderFrame extends javax.swing.JFrame {
     private List<MenuItem> menuItems;
     private Map<Integer, OrderItem> menuItemIdToOrderItemMap = new HashMap<>();
     DbUtils insert = new DbUtils();
+   // Order order = new Order();
+   // User user = new User();
     /**
      * Creates new form TheFrame
      */
@@ -222,23 +229,11 @@ public class OrderFrame extends javax.swing.JFrame {
         jButton2.setText("Order");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                 if(jRadioButton2.isSelected()== true){
-            for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
-          double total  = orderItem.getSubTotal(); 
-          double less = total * 0.10;
-          double discountedTotal = total - less;
-          
-          jLabel7.setText(String.format("%.2f", less));
-          jLabel8.setText(String.format("%.2f", discountedTotal));
-          insert.insertintoOrderItem(jTable1);
-              
-          
-         
-    }                                        
-        
-        }
-   }
+                 jButton2ActionPerformed(evt);
+			}
 		});
+			
+					 
 
         jButton1.setText("Clear");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -351,13 +346,42 @@ public class OrderFrame extends javax.swing.JFrame {
     menuItemIdToOrderItemMap.clear();
     refreshTable();
     
-    jLabel6.setText(null);
-    jLabel7.setText(null);
-    jLabel8.setText(null);
+    jLabel6.setText("0.00");
+    jLabel7.setText("0.00");
+    jLabel8.setText("0.00");
     }//GEN-LAST:event_jButton1ActionPerformed
 
-
-
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt){
+        if(jRadioButton2.isSelected()){
+			double subtotal = 0;
+            for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
+			subtotal += orderItem.getSubTotal();
+			
+			double discount = subtotal * 0.10;
+			double discountedTotal = subtotal - discount;
+          
+          jLabel7.setText(String.format("%.2f", discount));
+          jLabel8.setText(String.format("%.2f", discountedTotal));
+          insert.insertintoOrderItem(jTable1);
+         
+            
+            }
+            } else{ 
+               double subtotal = 0;
+    for (OrderItem orderItem : menuItemIdToOrderItemMap.values()){
+        subtotal += orderItem.getSubTotal();
+    }
+    
+    jLabel8.setText(String.format("%.2f", subtotal));
+        insert.insertintoOrderItem(jTable1);          
+        
+        
+                         
+                        
+            }
+       }
+    
+    
     /**
      * @param args the command line arguments
      */
