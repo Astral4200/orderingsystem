@@ -362,7 +362,7 @@ public class OrderFrame extends javax.swing.JFrame {
           
           jLabel7.setText(String.format("%.2f", discount));
           jLabel8.setText(String.format("%.2f", discountedTotal));
-          insert.insertintoOrderItem(jTable1);
+          insert.insertintoOrderItem(jTable1, menuItemIdToOrderItemMap, subtotal);
          
             
             }
@@ -373,7 +373,7 @@ public class OrderFrame extends javax.swing.JFrame {
     }
     
     jLabel8.setText(String.format("%.2f", subtotal));
-        insert.insertintoOrderItem(jTable1);          
+       insert.insertintoOrderItemNoDiscount(jTable1,menuItemIdToOrderItemMap, subtotal);          
         
         
                          

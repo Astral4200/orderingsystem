@@ -95,6 +95,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/CA KITCHEN'S 2X2 TARP LOGOresized2.jpg"))); // NOI18N
         jLabel2.setOpaque(true);
 
         jLabel3.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N

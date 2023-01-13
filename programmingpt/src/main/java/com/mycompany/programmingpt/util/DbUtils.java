@@ -1,21 +1,22 @@
 package com.mycompany.programmingpt.util;
 
-import com.mycompany.programmingpt.components.OrderFrame;
 import com.mycompany.programmingpt.model.MenuItem;
-import com.mycompany.programmingpt.model.Order;
 import com.mycompany.programmingpt.model.OrderItem;
 import com.mycompany.programmingpt.model.User;
-import com.mycompany.programmingpt.service.OrderService;
+
 
 
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.time.Instant;
+import java.time.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.swing.JTable;
 
@@ -53,7 +54,7 @@ public class DbUtils  {
         return menuItemList;
     }
     
-public static void insertintoOrderItem(JTable jTable1){
+public static void insertintoOrderItem(JTable jTable1,Map<Integer, OrderItem> menuItemIdToOrderItemMap, double subtotal){
     String query = "INSERT INTO order_items (menu,qty,subtotal,created_at) VALUES (?, ?, ?,?)";
     String checkquery = "SELECT * FROM order_items WHERE menu = ? AND created_at = ?";
     try (Connection connection = getConnection();
@@ -63,7 +64,7 @@ public static void insertintoOrderItem(JTable jTable1){
         for(int i = 0; i < jTable1.getRowCount(); i++){
             String menu = jTable1.getValueAt(i, 0).toString();
             int qty = Integer.parseInt(jTable1.getValueAt(i,1).toString());
-            double subtotal = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
+            subtotal = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
             Timestamp created_at = Timestamp.from(Instant.now());
             
             if(qty <=0){
@@ -84,12 +85,105 @@ public static void insertintoOrderItem(JTable jTable1){
             }
         }
         
-    }catch (Exception e){
-        e.printStackTrace();
-    }
-}
- 
+      String insertorder = "INSERT INTO orders (uuid, discount, total, datetime) VALUES (?, ?, ?, ?)";
+      String checkquery2 = "SELECT * FROM orders WHERE uuid = ? AND total = ? AND datetime = ?";
 
+      
+      subtotal = 0;
+      double discount = 0;
+      double total = 0;
+      String uuid = UUID.randomUUID().toString();
+      Timestamp timestamp = Timestamp.from(Instant.now());
+      
+      PreparedStatement insertOrder = connection.prepareStatement(insertorder);
+      PreparedStatement checkstmt2 = connection.prepareStatement(checkquery2);
+      
+        for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
+         subtotal += orderItem.getSubTotal();
+        discount += orderItem.getSubTotal() * 0.10;
+        total += orderItem.getSubTotal() - orderItem.getSubTotal() * 0.10;
+  }
+        checkstmt2.setString(1,uuid);
+        checkstmt2.setDouble(2, total);
+        checkstmt2.setTimestamp(3, timestamp);
+        ResultSet checkrs = checkstmt2.executeQuery();
+  
+        if(!checkrs.next()){
+        insertOrder.setString(1, uuid); 
+        insertOrder.setDouble(2, discount); 
+        insertOrder.setDouble(3, total); 
+        insertOrder.setTimestamp(4, timestamp); 
+        insertOrder.executeUpdate();
+  }
+}catch (Exception e){
+    e.printStackTrace();
+}
+}
+public static void insertintoOrderItemNoDiscount(JTable jTable1,Map<Integer, OrderItem> menuItemIdToOrderItemMap, double subtotal){
+    String query = "INSERT INTO order_items (menu,qty,subtotal,created_at) VALUES (?, ?, ?,?)";
+    String checkquery = "SELECT * FROM order_items WHERE menu = ? AND created_at = ?";
+    try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement checkstmt = connection.prepareStatement(checkquery)) {
+             
+        for(int i = 0; i < jTable1.getRowCount(); i++){
+            String menu = jTable1.getValueAt(i, 0).toString();
+            int qty = Integer.parseInt(jTable1.getValueAt(i,1).toString());
+            subtotal = Double.parseDouble(jTable1.getValueAt(i, 2).toString());
+            Timestamp created_at = Timestamp.from(Instant.now());
+            
+            if(qty <=0){
+                continue;
+            }
+            
+            checkstmt.setString(1,menu);
+            checkstmt.setTimestamp(2,created_at);
+            ResultSet checkrs = checkstmt.executeQuery();
+            
+            if(!checkrs.next()){
+                preparedStatement.setString(1, menu);
+                preparedStatement.setInt(2, qty);
+                preparedStatement.setDouble(3, subtotal);
+                preparedStatement.setTimestamp(4,created_at);
+
+                preparedStatement.executeUpdate();
+            }
+        }
+        
+      String insertorder = "INSERT INTO orders (uuid, discount, total, datetime) VALUES (?, ?, ?, ?)";
+      
+      
+
+      
+      subtotal = 0;
+      double discount = 0;
+      double total = 0;
+      String uuid = UUID.randomUUID().toString();
+      Timestamp timestamp = Timestamp.from(Instant.now());
+      
+      PreparedStatement insertOrder = connection.prepareStatement(insertorder);
+      
+      
+      
+        
+      
+        for (OrderItem orderItem : menuItemIdToOrderItemMap.values()) {
+         subtotal += orderItem.getSubTotal();
+        discount += 0;
+        total = subtotal;
+  }
+        insertOrder.setString(1, uuid);
+        insertOrder.setDouble(2, discount);
+        insertOrder.setDouble(3, total);
+        insertOrder.setTimestamp(4, timestamp);
+        insertOrder.executeUpdate();
+  
+        
+  
+}catch (Exception e){
+    e.printStackTrace();
+}
+}
 
     public static User getUser(String username, String password) {
         String query = "SELECT * FROM users WHERE username=? AND password=? LIMIT 1";
